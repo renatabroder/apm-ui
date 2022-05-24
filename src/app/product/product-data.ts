@@ -1,5 +1,3 @@
-
-
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Product } from './product';
 
@@ -11,51 +9,60 @@ export class ProductData implements InMemoryDbService {
                 id: 1,
                 productName: 'Leaf Rake',
                 productCode: 'GDN-0011',
-                releaseDate: '05/05/2022',
-                price: 12,
                 description: 'Leaf rake with 48-inch wooden handle',
-                starRating: 3.2,
-                imageUrl: '../../assets'
+                price: 19.95,
+                categoryId: 1,
+                quantityInStock: 15,
+                supplierIds: [1, 2]
             },
             {
                 id: 2,
                 productName: 'Garden Cart',
                 productCode: 'GDN-0023',
-                releaseDate: '05/05/2022',
-                price: 12,
                 description: '15 gallon capacity rolling garden cart',
-                starRating: 4.2,
-                imageUrl: '../../assets'
+                price: 32.99,
+                categoryId: 1,
+                quantityInStock: 2,
+                supplierIds: [3, 4]
             },
             {
                 id: 5,
                 productName: 'Hammer',
                 productCode: 'TBX-0048',
-                releaseDate: '05/05/2022',
-                price: 12,
                 description: 'Curved claw steel hammer',
-                starRating: 4.8,
-                imageUrl: '../../assets'
+                price: 8.9,
+                categoryId: 3,
+                quantityInStock: 8,
+                supplierIds: [5, 6]
             },
             {
                 id: 8,
                 productName: 'Saw',
                 productCode: 'TBX-0022',
-                releaseDate: '05/05/2022',
-                price: 12,
                 description: '15-inch steel blade hand saw',
-                starRating: 3.7,
-                imageUrl: '../../assets'
+                price: 11.55,
+                categoryId: 3,
+                quantityInStock: 6,
+                supplierIds: [7, 8]
             },
             {
                 id: 10,
                 productName: 'Video Game Controller',
                 productCode: 'GMG-0042',
-                releaseDate: '05/05/2022',
-                price: 12,
                 description: 'Standard two-button video game controller',
-                starRating: 4.6,
-                imageUrl: '../../assets'
+                price: 35.95,
+                categoryId: 5,
+                quantityInStock: 12,
+                supplierIds: [9, 10]
+            },
+            {
+                id: 13,
+                productName: 'Chatty Cathy (no suppliers)',
+                productCode: 'GMG-0001',
+                description: 'Doll from the 1960s',
+                price: 675.00,
+                categoryId: 5,
+                quantityInStock: 0
             }
         ];
         return { products };

@@ -16,7 +16,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   products: Product[] | undefined;
 
-  // Used to highlight the selected product in the list
   selectedProduct: Product | null | undefined;
   sub!: Subscription;
 
