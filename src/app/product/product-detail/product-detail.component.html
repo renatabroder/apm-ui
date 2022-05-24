@@ -5,48 +5,45 @@
         </div>
         <div class="card-body">
             <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm">
-                <fieldset>
-                    <div class="mb-3">
-                        <label class="form-label" for="productNameId">Product Name</label>
-                        <input class="form-control" id="productNameId" type="text" placeholder="Name (required)"
-                            formControlName="productName" />
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label" for="productNameId">Product Name</label>
+                    <input class="form-control" id="productNameId" type="text" placeholder="Name (required)"
+                        formControlName="productName" />
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="productCodeId">Product Code</label>
-                        <input class="form-control" id="productCodeId" type="text" placeholder="Code (required)"
-                            formControlName="productCode" />
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label" for="productCodeId">Product Code</label>
+                    <input class="form-control" id="productCodeId" type="text" placeholder="Code (required)"
+                        formControlName="productCode" />
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="descriptionId">Description</label>
-                        <textarea class="form-control" id="descriptionId" placeholder="Description" rows=3
-                            formControlName="description"></textarea>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label" for="descriptionId">Description</label>
+                    <textarea class="form-control" id="descriptionId" placeholder="Description" rows=3
+                        formControlName="description"></textarea>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-10 col-md-offset-2">
-                            <span>
-                                <button class="btn btn-primary" type="submit" style="width:80px;margin-right:10px">
-                                    <!-- [disabled]="!productForm.valid || !productForm.dirty"> -->
-                                    Save
-                                </button>
-                            </span>
-                            <span>
-                                <button class="btn btn-light" type="button" style="width:80px;margin-right:10px"
-                                    (click)="cancelEdit()">
-                                    Cancel
-                                </button>
-                            </span>
-                            <span>
-                                <button class="btn btn-light" type="button" style="width:80px"
-                                    (click)="deleteProduct()">
-                                    Delete
-                                </button>
-                            </span>
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <span>
+                            <button class="btn btn-primary" type="submit" style="width:80px;margin-right:10px"
+                                [disabled]="!productForm.valid || !productForm.dirty">
+                                Save
+                            </button>
+                        </span>
+                        <span>
+                            <button class="btn btn-light" type="button" style="width:80px;margin-right:10px"
+                                (click)="cancelEdit()">
+                                Cancel
+                            </button>
+                        </span>
+                        <span>
+                            <button class="btn btn-light" type="button" style="width:80px" (click)="deleteProduct()">
+                                Delete
+                            </button>
+                        </span>
                     </div>
-                </fieldset>
+                </div>
             </form>
         </div>
     </div>

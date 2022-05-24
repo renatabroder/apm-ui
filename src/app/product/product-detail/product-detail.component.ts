@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Product } from '../product';
 import { ProductService } from '../product-service.service';
 
@@ -9,7 +8,7 @@ import { ProductService } from '../product-service.service';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent {
   pageTitle = 'Product Edit';
 
   @Input() selectedProduct: Product | null = null;
@@ -27,22 +26,7 @@ export class ProductDetailComponent implements OnInit {
 
   errorMessage: string = "";
 
-  sub!: Subscription;
-
   constructor(private productService: ProductService, private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.sub = this.productService.getProducts().subscribe(
-      products => {
-        this.selectedProduct = products[0]
-        this.displayProduct(this.selectedProduct)
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 
   displayProduct(product: Product | null): void {
     if (product && this.productForm) {
