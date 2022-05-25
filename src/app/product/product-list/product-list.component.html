@@ -8,8 +8,9 @@
         <div class="card-body" *ngIf="productList$ | async as products">
             <div class="list-group">
                 <button class="list-group-item list-group-item-action rounded-0" *ngFor="let product of products"
-                    [ngClass]="{'active': product?.id === selectedProduct?.id}">{{
-                    product.productName }}
+                    [ngClass]="{'active': product?.id === (selectedProduct$ | async)?.id }"
+                    (click)="onSelected(product.id)">
+                    {{product.productName }}
                     <ng-container *ngIf="displayCode">
                         ({{ product.productCode }})
                     </ng-container>

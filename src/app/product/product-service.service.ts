@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 import { Product } from './product';
@@ -14,11 +14,26 @@ export class ProductService {
 
   productList$: Observable<Product[]> = this.http.get<Product[]>(this.productsUrl)
     .pipe(
-      tap(data => console.log(JSON.stringify(data))),
+      tap(data => console.log('GET ', JSON.stringify(data))),
       catchError(this.handleError)
     );
 
+  private productSelectedSubject = new BehaviorSubject<number>(0);
+  productSelectedAction$ = this.productSelectedSubject.asObservable();
+
+  selectedProduct$ = combineLatest([
+    this.productList$,
+    this.productSelectedAction$
+  ]).pipe(
+    map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId)),
+    tap(product => console.log('selectedProduct ', product))
+  );
+
   constructor(private http: HttpClient) { }
+
+  selectedProductChange(selectedProductId: number) {
+    this.productSelectedSubject.next(selectedProductId);
+  }
 
   createProduct(product: Product): Observable<Product> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

@@ -15,8 +15,6 @@ export class ProductListComponent {
 
   displayCode: boolean = false;
 
-  selectedProduct: Product | null | undefined;
-
   productList$ = this.productService.productList$
     .pipe(
       catchError(error => {
@@ -25,7 +23,13 @@ export class ProductListComponent {
       })
     );
 
+  selectedProduct$ = this.productService.selectedProduct$;
+
   constructor(private productService: ProductService) { }
+
+  onSelected(productId: number): void {
+    this.productService.selectedProductChange(productId);
+  }
 
   checkChanged(): void {
     this.displayCode = !this.displayCode;
