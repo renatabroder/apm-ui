@@ -5,6 +5,7 @@ import { BehaviorSubject, combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 import { Product } from './product';
+import { ProductCategoryService } from '../product-category/product-category.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,18 +19,31 @@ export class ProductService {
       catchError(this.handleError)
     );
 
+  productListWithCategory$ = combineLatest([
+    this.productList$,
+    this.productCategoryService.productCategories$
+  ]).pipe(
+    map(([products, categories]) => {
+      return products.map(product => ({
+        ...product,
+        category: categories.find(c => product.categoryId === c.id)?.name,
+      } as Product))
+    }),
+    tap(p => console.log(p))
+  );
+
   private productSelectedSubject = new BehaviorSubject<number>(0);
   productSelectedAction$ = this.productSelectedSubject.asObservable();
 
   selectedProduct$ = combineLatest([
-    this.productList$,
+    this.productListWithCategory$,
     this.productSelectedAction$
   ]).pipe(
     map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId)),
     tap(product => console.log('selectedProduct ', product))
   );
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private productCategoryService: ProductCategoryService) { }
 
   selectedProductChange(selectedProductId: number) {
     this.productSelectedSubject.next(selectedProductId);

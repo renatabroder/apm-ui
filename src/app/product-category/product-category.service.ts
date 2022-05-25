@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { ProductCategory } from './product-category';
@@ -18,7 +18,15 @@ export class ProductCategoryService {
       catchError(this.handleError)
     );
 
+  private categorySelectedSubject = new BehaviorSubject<number>(0);
+  categorySelectedAction$ = this.categorySelectedSubject.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  selectedCategoryChange(categoryId: number) {
+    console.log('categoryId ', categoryId);
+    this.categorySelectedSubject.next(categoryId);
+  }
 
   private handleError(err: any) {
     // in a real world app, we may send the server to some remote logging infrastructure

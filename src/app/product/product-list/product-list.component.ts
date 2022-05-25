@@ -15,7 +15,7 @@ export class ProductListComponent {
 
   displayCode: boolean = false;
 
-  productList$ = this.productService.productList$
+  productList$ = this.productService.productListWithCategory$
     .pipe(
       catchError(error => {
         this.errorMessage = error;
@@ -36,11 +36,11 @@ export class ProductListComponent {
   constructor(private productService: ProductService, private categoryService: ProductCategoryService) { }
 
   onSelected(productId: number): void {
-    this.productService.selectedProductChange(productId);
+    this.productService.selectedProductChange(+productId);
   }
 
   onSelectedCategory(categoryId: number) {
-
+    this.categoryService.selectedCategoryChange(+categoryId);
   }
 
   checkChanged(): void {
