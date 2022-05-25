@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { BehaviorSubject, combineLatest, Observable, throwError } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, shareReplay } from 'rxjs/operators';
 
 import { Product } from './product';
 import { ProductCategoryService } from '../product-category/product-category.service';
@@ -29,14 +29,15 @@ export class ProductService {
         category: categories.find(c => product.categoryId === c.id)?.name,
       } as Product))
     }),
-    tap(p => console.log(p))
+    shareReplay(1)
   );
 
   productListWithCategoryFilteredByCategory$ = combineLatest([
     this.productListWithCategory$,
     this.productCategoryService.categorySelectedAction$
   ]).pipe(
-    map(([products, selectedCategoryId]) => selectedCategoryId === 0 ? products : products.filter(p => p.categoryId === selectedCategoryId))
+    map(([products, selectedCategoryId]) => selectedCategoryId === 0 ? products : products.filter(p => p.categoryId === selectedCategoryId)),
+    shareReplay(1)
   );
 
   private productSelectedSubject = new BehaviorSubject<number>(0);
@@ -46,8 +47,7 @@ export class ProductService {
     this.productListWithCategoryFilteredByCategory$,
     this.productSelectedAction$
   ]).pipe(
-    map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId)),
-    tap(product => console.log('selectedProduct ', product))
+    map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId))
   );
 
   constructor(private http: HttpClient, private productCategoryService: ProductCategoryService) { }

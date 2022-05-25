@@ -13,7 +13,6 @@ export class ProductDetailComponent {
 
   pageTitle$ = this.selectedProduct$
     .pipe(
-      tap(p => console.log('pageTitle', p)),
       map(p => p ? `Product Detail for: ${p.name}` : null)
     );
 
