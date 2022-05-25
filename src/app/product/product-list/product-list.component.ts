@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product } from '../product';
-import { ProductService } from '../product-service.service';
+import { ProductCategoryService } from 'src/app/product-category/product-category.service';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'pm-product-list',
@@ -25,10 +25,22 @@ export class ProductListComponent {
 
   selectedProduct$ = this.productService.selectedProduct$;
 
-  constructor(private productService: ProductService) { }
+  productCategories$ = this.categoryService.productCategories$
+    .pipe(
+      catchError(error => {
+        this.errorMessage = error;
+        return EMPTY;
+      })
+    );
+
+  constructor(private productService: ProductService, private categoryService: ProductCategoryService) { }
 
   onSelected(productId: number): void {
     this.productService.selectedProductChange(productId);
+  }
+
+  onSelectedCategory(categoryId: number) {
+
   }
 
   checkChanged(): void {

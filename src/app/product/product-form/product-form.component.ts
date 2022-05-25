@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../product';
-import { ProductService } from '../product-service.service';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'pm-product-form',
@@ -38,14 +38,14 @@ export class ProductFormComponent {
 
   private updateFormData(product: Product) {
     this.productForm.patchValue({
-      productName: product.productName,
-      productCode: product.productCode,
+      productName: product.name,
+      productCode: product.code,
       description: product.description
     });
   }
 
   private setPageTitle(product: Product) {
-    this.pageTitle = (product.id === 0) ? 'Add Product' : `Edit Product: ${product.productName}`;
+    this.pageTitle = (product.id === 0) ? 'Add Product' : `Edit Product: ${product.name}`;
   }
 
   cancelEdit(): void {
@@ -68,7 +68,7 @@ export class ProductFormComponent {
 
   deleteProduct(): void {
     if (this.selectedProduct && this.selectedProduct.id) {
-      if (confirm(`Really delete the product: ${this.selectedProduct.productName}?`)) {
+      if (confirm(`Really delete the product: ${this.selectedProduct.name}?`)) {
         this.delete.emit(this.selectedProduct);
       }
     } else {

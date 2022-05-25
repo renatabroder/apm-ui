@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { ProductService } from '../product-service.service';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'pm-product-detail',
@@ -14,7 +14,7 @@ export class ProductDetailComponent {
   pageTitle$ = this.selectedProduct$
     .pipe(
       tap(p => console.log('pageTitle', p)),
-      map(p => p ? `Product Detail for: ${p.productName}` : null)
+      map(p => p ? `Product Detail for: ${p.name}` : null)
     );
 
   constructor(private productService: ProductService) { }

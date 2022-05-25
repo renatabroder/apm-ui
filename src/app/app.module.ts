@@ -1,21 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
-// Imports for loading & configuring the in-memory web api
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ProductData } from './product/product-data';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
+import { AppData } from './app-data';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
-import { ProductFormComponent } from './product/product-form/product-form.component';
-import { ProductShellComponent } from './product/product-shell/product-shell.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
+import { ProductFormComponent } from './product/product-form/product-form.component';
+import { ProductListComponent } from './product/product-list/product-list.component';
+import { ProductShellComponent } from './product/product-shell/product-shell.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +30,9 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    InMemoryWebApiModule.forRoot(AppData, { delay: 1000 }),
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(ProductData),
+    ReactiveFormsModule
   ],
   exports: [ReactiveFormsModule],
   providers: [],

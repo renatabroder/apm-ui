@@ -6,13 +6,22 @@
         </div>
 
         <div class="card-body" *ngIf="productList$ | async as products">
+
+            <div>
+                <select class="form-control" (change)="onSelectedCategory($any($event.target).value)">
+                    <option value="0">- Display All -</option>
+                    <option *ngFor="let category of productCategories$ | async" [value]="category.id">
+                        {{ category.name}}</option>
+                </select>
+            </div>
+
             <div class="list-group">
                 <button class="list-group-item list-group-item-action rounded-0" *ngFor="let product of products"
                     [ngClass]="{'active': product?.id === (selectedProduct$ | async)?.id }"
                     (click)="onSelected(product.id)">
-                    {{product.productName }}
+                    {{product.name }}
                     <ng-container *ngIf="displayCode">
-                        ({{ product.productCode }})
+                        ({{ product.code }})
                     </ng-container>
                 </button>
             </div>
