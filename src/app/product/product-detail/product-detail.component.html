@@ -6,28 +6,28 @@
 
         <div class="card-body" *ngIf="selectedProduct">
             <div class="row">
-                <div class="col-md-3">Name:</div>
-                <div class="col-md-6">{{ selectedProduct.name }}</div>
+                <div class="col-3">Name:</div>
+                <div class="col-9">{{ selectedProduct.name }}</div>
             </div>
             <div class="row">
-                <div class="col-md-3">Code:</div>
-                <div class="col-md-6">{{ selectedProduct.code }}</div>
+                <div class="col-3">Code:</div>
+                <div class="col-9">{{ selectedProduct.code }}</div>
             </div>
             <div class="row">
-                <div class="col-md-3">Category:</div>
-                <div class="col-md-6">{{ selectedProduct.category }}</div>
+                <div class="col-3">Category:</div>
+                <div class="col-9">{{ selectedProduct.category }}</div>
             </div>
             <div class="row">
-                <div class="col-md-3">Description:</div>
-                <div class="col-md-6">{{ selectedProduct.description }}</div>
+                <div class="col-3">Description:</div>
+                <div class="col-9">{{ selectedProduct.description }}</div>
             </div>
             <div class="row">
-                <div class="col-md-3">Price:</div>
-                <div class="col-md-6">{{ selectedProduct.price | currency: "USD":"symbol" }}</div>
+                <div class="col-3">Price:</div>
+                <div class="col-9">{{ selectedProduct.price | currency: "USD":"symbol" }}</div>
             </div>
             <div class="row">
-                <div class="col-md-3">In Stock:</div>
-                <div class="col-md-6">{{ selectedProduct.quantityInStock }}</div>
+                <div class="col-3">In Stock:</div>
+                <div class="col-9">{{ selectedProduct.quantityInStock }}</div>
             </div>
 
             <!-- <div class="table-responsive">
