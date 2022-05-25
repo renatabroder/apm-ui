@@ -1,53 +1,62 @@
 <div class="container-fluid">
-    <div class="card" *ngIf="selectedProduct">
+    <div class="card" *ngIf="selectedProduct$ | async as selectedProduct">
         <div class="card-header">
-            {{pageTitle}}
+            {{ pageTitle$ | async }}
         </div>
-        <div class="card-body">
-            <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm">
-                <div class="mb-3">
-                    <label class="form-label" for="productNameId">Product Name</label>
-                    <input class="form-control" id="productNameId" type="text" placeholder="Name (required)"
-                        formControlName="productName" />
-                </div>
 
-                <div class="mb-3">
-                    <label class="form-label" for="productCodeId">Product Code</label>
-                    <input class="form-control" id="productCodeId" type="text" placeholder="Code (required)"
-                        formControlName="productCode" />
-                </div>
+        <div class="card-body" *ngIf="selectedProduct">
+            <div class="row">
+                <div class="col-md-3">Name:</div>
+                <div class="col-md-6">{{ selectedProduct.productName }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Code:</div>
+                <div class="col-md-6">{{ selectedProduct.productCode }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Category:</div>
+                <div class="col-md-6">{{ selectedProduct.category }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Description:</div>
+                <div class="col-md-6">{{ selectedProduct.description }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Price:</div>
+                <div class="col-md-6">{{ selectedProduct.price | currency: "USD":"symbol" }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">In Stock:</div>
+                <div class="col-md-6">{{ selectedProduct.quantityInStock }}</div>
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label" for="descriptionId">Description</label>
-                    <textarea class="form-control" id="descriptionId" placeholder="Description" rows=3
-                        formControlName="description"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
-                        <span>
-                            <button class="btn btn-primary" type="submit" style="width:80px;margin-right:10px"
-                                [disabled]="!productForm.valid || !productForm.dirty">
-                                Save
-                            </button>
-                        </span>
-                        <span>
-                            <button class="btn btn-light" type="button" style="width:80px;margin-right:10px"
-                                (click)="cancelEdit()">
-                                Cancel
-                            </button>
-                        </span>
-                        <span>
-                            <button class="btn btn-light" type="button" style="width:80px" (click)="deleteProduct()">
-                                Delete
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </form>
+            <!-- <div class="table-responsive">
+                <table class="table mb-0" *ngIf="vm.productSuppliers.length; else noSuppliers">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Cost</th>
+                            <th>Minimum Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let supplier of vm.productSuppliers">
+                            <td>{{ supplier.name }}</td>
+                            <td>{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}</td>
+                            <td>{{ supplier.minQuantity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
         </div>
+        <ng-template #noSuppliers>
+            <div class="alert alert-warning">
+                No suppliers for product
+            </div>
+        </ng-template>
     </div>
-    <div *ngIf="errorMessage" class="alert alert-danger">
-        Error: {{ errorMessage }}
-    </div>
+
+    <!-- <div class="alert alert-danger" *ngIf="errorMessage$ | async as errorMessage">
+        {{ errorMessage }}
+    </div> -->
 </div>

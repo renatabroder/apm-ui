@@ -12,9 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
-import { ProductDetailComponent } from './product/product-detail/product-detail.component';
+import { ProductFormComponent } from './product/product-form/product-form.component';
 import { ProductShellComponent } from './product/product-shell/product-shell.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProductListComponent,
     PageNotFoundComponent,
     LoginComponent,
-    ProductDetailComponent,
-    ProductShellComponent
+    ProductFormComponent,
+    ProductShellComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
