@@ -15,7 +15,7 @@ export class ProductListComponent {
 
   displayCode: boolean = false;
 
-  productList$ = this.productService.productListWithCategory$
+  productList$ = this.productService.productListWithCategoryFilteredByCategory$
     .pipe(
       catchError(error => {
         this.errorMessage = error;

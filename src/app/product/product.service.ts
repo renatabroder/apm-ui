@@ -32,11 +32,18 @@ export class ProductService {
     tap(p => console.log(p))
   );
 
+  productListWithCategoryFilteredByCategory$ = combineLatest([
+    this.productListWithCategory$,
+    this.productCategoryService.categorySelectedAction$
+  ]).pipe(
+    map(([products, selectedCategoryId]) => selectedCategoryId === 0 ? products : products.filter(p => p.categoryId === selectedCategoryId))
+  );
+
   private productSelectedSubject = new BehaviorSubject<number>(0);
   productSelectedAction$ = this.productSelectedSubject.asObservable();
 
   selectedProduct$ = combineLatest([
-    this.productListWithCategory$,
+    this.productListWithCategoryFilteredByCategory$,
     this.productSelectedAction$
   ]).pipe(
     map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId)),
