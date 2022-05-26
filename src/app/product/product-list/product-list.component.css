@@ -1,6 +1,6 @@
 @media (max-width: 1400px) {
     .list-group {
         max-height: 34vh;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 }
