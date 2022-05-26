@@ -1,62 +1,64 @@
 <div class="container-fluid">
-    <div class="card" *ngIf="selectedProduct$ | async as selectedProduct">
-        <div class="card-header">
+    <div class="card" id="card_productDetail" *ngIf="selectedProduct$ | async as selectedProduct">
+        <div class="card-header" id="txt_productDetail_title">
             {{ pageTitle$ | async }}
         </div>
 
         <div class="card-body" *ngIf="selectedProduct">
             <div class="row">
-                <div class="col-3">Name:</div>
-                <div class="col-9">{{ selectedProduct.name }}</div>
+                <div class="col-3" id="lbl_productDetail_name">Name:</div>
+                <div class="col-9" id="txt_productDetail_name">{{ selectedProduct.name }}</div>
             </div>
             <div class="row">
-                <div class="col-3">Code:</div>
-                <div class="col-9">{{ selectedProduct.code }}</div>
+                <div class="col-3" id="lbl_productDetail_code">Code:</div>
+                <div class="col-9" id="txt_productDetail_code">{{ selectedProduct.code }}</div>
             </div>
             <div class="row">
-                <div class="col-3">Category:</div>
-                <div class="col-9">{{ selectedProduct.category }}</div>
+                <div class="col-3" id="lbl_productDetail_category">Category:</div>
+                <div class="col-9" id="txt_productDetail_category">{{ selectedProduct.category }}</div>
             </div>
             <div class="row">
-                <div class="col-3">Description:</div>
-                <div class="col-9">{{ selectedProduct.description }}</div>
+                <div class="col-3" id="lbl_productDetail_description">Description:</div>
+                <div class="col-9" id="txt_productDetail_description">{{ selectedProduct.description }}</div>
             </div>
             <div class="row">
-                <div class="col-3">Price:</div>
-                <div class="col-9">{{ selectedProduct.price | currency: "USD":"symbol" }}</div>
+                <div class="col-3" id="lbl_productDetail_price">Price:</div>
+                <div class="col-9" id="txt_productDetail_price">{{ selectedProduct.price | currency: "USD":"symbol" }}
+                </div>
             </div>
-            <div class="row">
-                <div class="col-3">In Stock:</div>
-                <div class="col-9">{{ selectedProduct.quantityInStock }}</div>
+            <div class="row mb-3">
+                <div class="col-3" id="lbl_productDetail_qtyInStock">In Stock:</div>
+                <div class="col-9" id="txt_productDetail_qtyInStock">{{ selectedProduct.quantityInStock }}</div>
             </div>
 
-            <!-- <div class="table-responsive">
-                <table class="table mb-0" *ngIf="vm.productSuppliers.length; else noSuppliers">
+            <div class="table-responsive" *ngIf="(selectedProductSuppliers$ | async )?.length; else noSuppliers">
+                <table class="table mb-0" id="tbl_supplier">
                     <thead>
-                        <tr>
-                            <th>Supplier</th>
-                            <th>Cost</th>
-                            <th>Minimum Quantity</th>
+                        <tr id="tr_supplier">
+                            <th id="th_supplier_supplier">Supplier</th>
+                            <th id="th_supplier_cost">Cost</th>
+                            <th id="th_supplier_minQty">Minimum Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let supplier of vm.productSuppliers">
-                            <td>{{ supplier.name }}</td>
-                            <td>{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}</td>
-                            <td>{{ supplier.minQuantity }}</td>
+                        <tr *ngFor="let supplier of selectedProductSuppliers$ | async; index as i;"
+                            id="tr_supplier_{{i}}">
+                            <td id="td_supplier_supplier_{{i}}">{{ supplier.name }}</td>
+                            <td id="td_supplier_cost_{{i}}">{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}</td>
+                            <td id="td_supplier_minQty_{{i}}">{{ supplier.minQuantity }}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div> -->
+            </div>
         </div>
         <ng-template #noSuppliers>
-            <div class="alert alert-warning">
+            <div id="th_supplier_noSupplier" class="alert alert-warning">
                 No suppliers for product
             </div>
         </ng-template>
     </div>
 
-    <!-- <div class="alert alert-danger" *ngIf="errorMessage$ | async as errorMessage">
+    <div class="alert alert-danger" *ngIf="errorMessage$ | async as errorMessage">
         {{ errorMessage }}
-    </div> -->
+    </div>
 </div>

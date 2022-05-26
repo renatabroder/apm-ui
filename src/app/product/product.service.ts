@@ -6,6 +6,7 @@ import { catchError, tap, map, shareReplay } from 'rxjs/operators';
 
 import { Product } from './product';
 import { ProductCategoryService } from '../product-category/product-category.service';
+import { SupplierService } from '../supplier/supplier.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,16 @@ export class ProductService {
     map(([products, selectedProductId]) => products.find(product => product.id === selectedProductId))
   );
 
-  constructor(private http: HttpClient, private productCategoryService: ProductCategoryService) { }
+  selectedProductSuppliers$ = combineLatest([
+    this.selectedProduct$,
+    this.supplierService.suppliers$
+  ]).pipe(
+    map(([selectedProduct, suppliers]) =>
+      suppliers.filter(supplier => selectedProduct?.supplierIds?.includes(supplier.id))
+    )
+  );
+
+  constructor(private http: HttpClient, private productCategoryService: ProductCategoryService, private supplierService: SupplierService) { }
 
   selectedProductChange(selectedProductId: number) {
     this.productSelectedSubject.next(selectedProductId);
