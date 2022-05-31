@@ -12,7 +12,8 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    component: ProductShellComponent
+    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
+    //component: ProductShellComponent
   },
   {
     path: 'login',

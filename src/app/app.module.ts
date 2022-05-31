@@ -10,27 +10,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { ProductDetailComponent } from './product/product-detail/product-detail.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
-import { ProductShellComponent } from './product/product-shell/product-shell.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ProductListComponent,
     PageNotFoundComponent,
     LoginComponent,
-    ProductShellComponent,
-    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientInMemoryWebApiModule.forRoot(AppData, { delay: 1000 }),
-    HttpClientModule,
-    ReactiveFormsModule
+    HttpClientModule
   ],
   exports: [ReactiveFormsModule],
   providers: [],
