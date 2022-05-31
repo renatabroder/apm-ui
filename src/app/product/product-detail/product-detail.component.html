@@ -4,56 +4,117 @@
             {{ pageTitle$ | async }}
         </div>
 
-        <div class="card-body" *ngIf="selectedProduct">
-            <div class="row">
-                <div class="col-3" id="lbl_productDetail_name">Name:</div>
-                <div class="col-9" id="txt_productDetail_name">{{ selectedProduct.name }}</div>
+        <div *ngIf="productEdit$ | async as edit; else notEdit">
+            <div class="card-body" *ngIf="selectedProduct">
+                <form [formGroup]="productForm">
+                    <div class="row input-group input-group-sm mb-1">
+                        <div class="col-3" id="lbl_productDetail_name">Name:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <input class="form-control form-control-sm" formControlName="name">
+                        </div>
+                    </div>
+                    <div class="row input-group input-group-sm mb-1">
+                        <div class="col-3" id="lbl_productDetail_code">Code:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <input class="form-control form-control-sm" formControlName="code">
+                        </div>
+                    </div>
+                    <div class="row input-group input-group-sm mb-1">
+                        <div class="col-3" id="lbl_productDetail_category">Category:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <select class="form-control form-control-sm" formControlName="category"
+                                id="productCategory">
+                                <option value="0">- Display All -</option>
+                                <option *ngFor="let category of productCategories$ | async" [value]="category.id">
+                                    {{ category.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row input-group input-group-sm mb-1">
+                        <div class="col-3" id="lbl_productDetail_description">Description:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <input class="form-control form-control-sm" formControlName="description">
+                        </div>
+                    </div>
+                    <div class="row input-group input-group-sm mb-1">
+                        <div class="col-3" id="lbl_productDetail_price">Price:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <input class="form-control form-control-sm" formControlName="price">
+                        </div>
+                    </div>
+                    <div class="row input-group input-group-sm mb-1 mb-3">
+                        <div class="col-3" id="lbl_productDetail_qtyInStock">In Stock:</div>
+                        <div class="col-9" id="txt_productDetail_name">
+                            <input class="form-control form-control-sm" formControlName="quantityInStock">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-3" id="lbl_productDetail_code">Code:</div>
-                <div class="col-9" id="txt_productDetail_code">{{ selectedProduct.code }}</div>
-            </div>
-            <div class="row">
-                <div class="col-3" id="lbl_productDetail_category">Category:</div>
-                <div class="col-9" id="txt_productDetail_category">{{ selectedProduct.category }}</div>
-            </div>
-            <div class="row">
-                <div class="col-3" id="lbl_productDetail_description">Description:</div>
-                <div class="col-9" id="txt_productDetail_description">{{ selectedProduct.description }}</div>
-            </div>
-            <div class="row">
-                <div class="col-3" id="lbl_productDetail_price">Price:</div>
-                <div class="col-9" id="txt_productDetail_price">{{ selectedProduct.price | currency: "USD":"symbol" }}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-3" id="lbl_productDetail_qtyInStock">In Stock:</div>
-                <div class="col-9" id="txt_productDetail_qtyInStock">{{ selectedProduct.quantityInStock }}</div>
-            </div>
-
-            <div class="table-responsive" *ngIf="(selectedProductSuppliers$ | async )?.length; else noSuppliers">
-                <table class="table mb-0" id="tbl_supplier">
-                    <thead>
-                        <tr id="tr_supplier">
-                            <th id="th_supplier_supplier">Supplier</th>
-                            <th id="th_supplier_cost">Cost</th>
-                            <th id="th_supplier_minQty">Minimum Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let supplier of selectedProductSuppliers$ | async; index as i;"
-                            id="tr_supplier_{{i}}">
-                            <td id="td_supplier_supplier_{{i}}">{{ supplier.name }}</td>
-                            <td id="td_supplier_cost_{{i}}">{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}</td>
-                            <td id="td_supplier_minQty_{{i}}">{{ supplier.minQuantity }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-light" (click)="editProduct(false)">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveProduct()">Save</button>
             </div>
         </div>
-        <ng-template #noSuppliers>
-            <div id="th_supplier_noSupplier" class="alert alert-warning">
-                No suppliers for product
+
+        <ng-template #notEdit>
+            <div class="card-body" *ngIf="selectedProduct">
+
+                <div class="row">
+                    <div class="col-3" id="lbl_productDetail_name">Name:</div>
+                    <div class="col-9" id="txt_productDetail_name">{{selectedProduct.name}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3" id="lbl_productDetail_code">Code:</div>
+                    <div class="col-9" id="txt_productDetail_code">{{ selectedProduct.code }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3" id="lbl_productDetail_category">Category:</div>
+                    <div class="col-9" id="txt_productDetail_category">{{ selectedProduct.category }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3" id="lbl_productDetail_description">Description:</div>
+                    <div class="col-9" id="txt_productDetail_description">{{ selectedProduct.description }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3" id="lbl_productDetail_price">Price:</div>
+                    <div class="col-9" id="txt_productDetail_price">{{ selectedProduct.price | currency:
+                        "USD":"symbol"
+                        }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-3" id="lbl_productDetail_qtyInStock">In Stock:</div>
+                    <div class="col-9" id="txt_productDetail_qtyInStock">{{ selectedProduct.quantityInStock }}</div>
+                </div>
+
+                <div class="table-responsive" *ngIf="(selectedProductSuppliers$ | async )?.length; else noSuppliers">
+                    <table class="table mb-0" id="tbl_supplier">
+                        <thead>
+                            <tr id="tr_supplier">
+                                <th id="th_supplier_supplier">Supplier</th>
+                                <th id="th_supplier_cost">Cost</th>
+                                <th id="th_supplier_minQty">Minimum Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let supplier of selectedProductSuppliers$ | async; index as i;"
+                                id="tr_supplier_{{i}}">
+                                <td id="td_supplier_supplier_{{i}}">{{ supplier.name }}</td>
+                                <td id="td_supplier_cost_{{i}}">{{ supplier.cost | currency: "USD":"symbol":"1.2-2" }}
+                                </td>
+                                <td id="td_supplier_minQty_{{i}}">{{ supplier.minQuantity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #noSuppliers>
+                    <div id="th_supplier_noSupplier" class="alert alert-warning">
+                        No suppliers for product
+                    </div>
+                </ng-template>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" (click)="editProduct(true)">Edit</button>
             </div>
         </ng-template>
     </div>
