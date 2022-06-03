@@ -63,24 +63,10 @@ export class ProductService {
     )
   );
 
-  productEditSubject = new BehaviorSubject<boolean>(false);
-  productEditAction$ = this.productEditSubject.asObservable();
-
-  editProduct$ = combineLatest([
-    this.selectedProduct$,
-    this.productEditAction$
-  ]).pipe(
-    map(([selectedProduct, edit]) => edit ? selectedProduct : EMPTY)
-  );
-
   constructor(private http: HttpClient, private productCategoryService: ProductCategoryService, private supplierService: SupplierService) { }
 
   selectedProductChange(selectedProductId: number) {
     this.productSelectedSubject.next(selectedProductId);
-  }
-
-  editProductChange(edit: boolean) {
-    this.productEditSubject.next(edit);
   }
 
   createProduct(product: Product): Observable<Product> {
@@ -110,9 +96,6 @@ export class ProductService {
 
     return this.http.put<Product>(url, product, { headers })
       .pipe(
-        tap(() => {
-          this.editProductChange(false);
-        }),
         map(() => product),
         catchError(this.handleError)
       );

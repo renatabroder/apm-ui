@@ -45,8 +45,6 @@ export class ProductDetailComponent {
       map(p => p ? `Product Detail for: ${p.name}` : null)
     );
 
-  productEdit$ = this.productService.productEditSubject;
-
   productForm = this.fb.group({
     id: 0,
     name: '',
@@ -70,10 +68,6 @@ export class ProductDetailComponent {
         price: product.price,
         quantityInStock: product.quantityInStock
       });
-  }
-
-  editProduct(edit: boolean) {
-    this.productService.editProductChange(edit);
   }
 
   saveProduct() {
