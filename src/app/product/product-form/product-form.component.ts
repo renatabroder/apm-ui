@@ -18,7 +18,7 @@ export class ProductFormComponent {
 
   selectedProduct$ = this.productService.selectedProduct$
     .pipe(
-      tap(selected => this.setFormValues(selected)),
+      //tap(selected => this.setFormValues(selected)),
       catchError(err => {
         this.errorMessageSubject.next(err);
         return EMPTY;
@@ -27,7 +27,7 @@ export class ProductFormComponent {
 
   pageTitle$ = this.selectedProduct$
     .pipe(
-      map(p => p ? `Product Detail for: ${p.name}` : null)
+      map(p => p ? `Product Detail for: ${p.name}` : 'Add Product')
     );
 
   productCategories$ = this.categoryService.productCategories$
@@ -48,6 +48,8 @@ export class ProductFormComponent {
     quantityInStock: 0
   });
 
+  openForm$ = this.productService.openForm$;
+
   constructor(private productService: ProductService, private categoryService: ProductCategoryService, private fb: FormBuilder) { }
 
   setFormValues(product: Product | undefined) {
@@ -61,6 +63,15 @@ export class ProductFormComponent {
         price: product.price,
         quantityInStock: product.quantityInStock
       });
+  }
+
+  onCancel() {
+    this.productService.openFormChange(false);
+  }
+
+  onSave() {
+    this.productService.addProduct(this.productForm.value as Product);
+    this.productForm.reset();
   }
 
 }

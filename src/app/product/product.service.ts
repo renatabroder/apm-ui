@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, combineLatest, EMPTY, Observable, throwError } from 'rxjs';
-import { catchError, tap, map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject, throwError } from 'rxjs';
+import { catchError, tap, map, shareReplay, scan } from 'rxjs/operators';
 
-import { Product } from './product';
+import { CRUDAction, Product } from './product';
 import { ProductCategoryService } from '../product-category/product-category.service';
 import { SupplierService } from '../supplier/supplier.service';
 
@@ -17,6 +17,7 @@ export class ProductService {
   productList$: Observable<Product[]> = this.http.get<Product[]>(this.productsUrl)
     .pipe(
       tap(data => console.log('GET ', JSON.stringify(data))),
+      shareReplay(1),
       catchError(this.handleError)
     );
 
@@ -38,7 +39,8 @@ export class ProductService {
     this.productCategoryService.categorySelectedAction$
   ]).pipe(
     map(([products, selectedCategoryId]) => selectedCategoryId === 0 ? products : products.filter(p => p.categoryId === selectedCategoryId)),
-    shareReplay(1)
+    shareReplay(1),
+    catchError(this.handleError)
   );
 
   private productSelectedSubject = new BehaviorSubject<number>(0);
@@ -50,8 +52,7 @@ export class ProductService {
   ]).pipe(
     map(([products, selectedProductId]) => {
       return products.find(product => product.id === selectedProductId)
-    }),
-    shareReplay(1)
+    })
   );
 
   selectedProductSuppliers$ = combineLatest([
@@ -63,15 +64,47 @@ export class ProductService {
     )
   );
 
+  private openFormSubject = new BehaviorSubject<boolean>(false);
+  openForm$ = this.openFormSubject.asObservable();
+
+  private productCRUDSubject = new Subject<CRUDAction<Product>>();
+  productCRUDAction$ = this.productCRUDSubject.asObservable();
+
+  allProducts$ = merge(
+    this.productList$,
+    this.productCRUDAction$.pipe(
+      map(a => [a.data]),
+      tap(() => this.openFormSubject.next(false))
+    )
+  ).pipe(
+    scan((productList, product) => {
+      return [...productList, ...product]
+    }, [] as Product[])
+  );
+
   constructor(private http: HttpClient, private productCategoryService: ProductCategoryService, private supplierService: SupplierService) { }
 
   selectedProductChange(selectedProductId: number) {
     this.productSelectedSubject.next(selectedProductId);
   }
 
+  openFormChange(openOrClosed: boolean) {
+    this.openFormSubject.next(openOrClosed);
+  }
+
+  addProduct(product: Product) {
+    this.productCRUDSubject.next({ action: 'add', data: product });
+  }
+
+  saveProduct(action: CRUDAction<Product>): Observable<Product> {
+    if (action.action === 'add')
+      return this.createProduct(action.data);
+    return this.updateProduct(action.data);
+  }
+
   createProduct(product: Product): Observable<Product> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    // Product Id must be null for the Web API to assign an Id
+
     const newProduct = { ...product, id: null };
     return this.http.post<Product>(this.productsUrl, newProduct, { headers })
       .pipe(

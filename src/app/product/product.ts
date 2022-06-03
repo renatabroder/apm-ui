@@ -10,3 +10,8 @@ export interface Product {
     searchKey?: string[];
     supplierIds?: number[];
 }
+
+export interface CRUDAction<T> {
+    action: 'add' | 'update' | 'delete';
+    data: T;
+}

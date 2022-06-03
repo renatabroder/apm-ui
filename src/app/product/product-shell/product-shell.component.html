@@ -3,6 +3,7 @@
         <pm-product-list></pm-product-list>
     </div>
     <div class="col-12 col-md-7">
-        <pm-product-detail></pm-product-detail>
+        <pm-product-detail *ngIf="!(openForm$ | async)"></pm-product-detail>
+        <pm-product-form *ngIf="(openForm$ | async)"></pm-product-form>
     </div>
 </div>

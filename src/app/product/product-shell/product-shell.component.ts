@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'pm-product-shell',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class ProductShellComponent {
 
-  constructor() { }
+  openForm$ = this.productService.openForm$;
+
+  constructor(private productService: ProductService) { }
 
 }

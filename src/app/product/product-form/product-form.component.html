@@ -1,11 +1,11 @@
 <div class="container-fluid">
     <div class="card" id="card_productDetail">
-        <div class="card-header" id="txt_productDetail_title">
-            {{ pageTitle$ | async }}
-        </div>
+        <form [formGroup]="productForm" (ngSubmit)="onSave()">
+            <div class="card-header" id="txt_productDetail_title">
+                {{ pageTitle$ | async }}
+            </div>
 
-        <div class="card-body">
-            <form [formGroup]="productForm">
+            <div class="card-body">
                 <div class="row input-group input-group-sm mb-1">
                     <div class="col-3" id="lbl_productDetail_name">Name:</div>
                     <div class="col-9" id="txt_productDetail_name">
@@ -46,13 +46,13 @@
                         <input class="form-control form-control-sm" formControlName="quantityInStock">
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="card-footer d-flex justify-content-between">
-            <button type="button" class="btn btn-light">Cancel</button>
-            <button type="button" class="btn btn-primary">Save</button>
-        </div>
+            </div>
 
+            <div class="card-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-light" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
     </div>
 
     <div class="alert alert-danger" *ngIf="errorMessage$ | async as errorMessage">

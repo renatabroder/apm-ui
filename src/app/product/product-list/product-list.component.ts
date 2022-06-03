@@ -15,7 +15,7 @@ export class ProductListComponent {
 
   displayCode: boolean = false;
 
-  productList$ = this.productService.productListWithCategoryFilteredByCategory$
+  productList$ = this.productService.allProducts$
     .pipe(
       catchError(error => {
         this.errorMessage = error;
@@ -33,6 +33,8 @@ export class ProductListComponent {
       })
     );
 
+  openForm$ = this.productService.openForm$;
+
   constructor(private productService: ProductService, private categoryService: ProductCategoryService) { }
 
   onSelected(productId: number): void {
@@ -45,5 +47,9 @@ export class ProductListComponent {
 
   checkChanged(): void {
     this.displayCode = !this.displayCode;
+  }
+
+  addProduct() {
+    this.productService.openFormChange(true);
   }
 }
