@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="card" id="card_productDetail">
+        <div class="card-header" id="txt_productDetail_title">
+            {{ pageTitle$ | async }}
+        </div>
+
+        <div class="card-body">
+            <form [formGroup]="productForm">
+                <div class="row input-group input-group-sm mb-1">
+                    <div class="col-3" id="lbl_productDetail_name">Name:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <input class="form-control form-control-sm" formControlName="name">
+                    </div>
+                </div>
+                <div class="row input-group input-group-sm mb-1">
+                    <div class="col-3" id="lbl_productDetail_code">Code:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <input class="form-control form-control-sm" formControlName="code">
+                    </div>
+                </div>
+                <div class="row input-group input-group-sm mb-1">
+                    <div class="col-3" id="lbl_productDetail_category">Category:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <select class="form-control form-control-sm" formControlName="category" id="productCategory">
+                            <option value="0">- Display All -</option>
+                            <option *ngFor="let category of productCategories$ | async" [value]="category.id">
+                                {{ category.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row input-group input-group-sm mb-1">
+                    <div class="col-3" id="lbl_productDetail_description">Description:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <input class="form-control form-control-sm" formControlName="description">
+                    </div>
+                </div>
+                <div class="row input-group input-group-sm mb-1">
+                    <div class="col-3" id="lbl_productDetail_price">Price:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <input class="form-control form-control-sm" formControlName="price">
+                    </div>
+                </div>
+                <div class="row input-group input-group-sm mb-1 mb-3">
+                    <div class="col-3" id="lbl_productDetail_qtyInStock">In Stock:</div>
+                    <div class="col-9" id="txt_productDetail_name">
+                        <input class="form-control form-control-sm" formControlName="quantityInStock">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-light">Cancel</button>
+            <button type="button" class="btn btn-primary">Save</button>
+        </div>
+
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage$ | async as errorMessage">
+        {{ errorMessage }}
+    </div>
+</div>
